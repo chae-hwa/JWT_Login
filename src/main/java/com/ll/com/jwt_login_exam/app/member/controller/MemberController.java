@@ -2,6 +2,7 @@ package com.ll.com.jwt_login_exam.app.member.controller;
 
 import com.ll.com.jwt_login_exam.app.member.entity.Member;
 import com.ll.com.jwt_login_exam.app.member.service.MemberService;
+import com.ll.com.jwt_login_exam.util.Util;
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpHeaders;
@@ -43,11 +44,9 @@ public class MemberController {
 
 
         HttpHeaders headers = new HttpHeaders();
-        headers.set("Authentication", "JWT키");
+        headers.set("Authentication", "JWT_Access_Token");
 
-        String body = "username : %s, passoword : %s".formatted(loginDto.getUsername(), loginDto.getPassword());
-
-        return new ResponseEntity<>(body, headers, HttpStatus.OK);
+        return Util.spring.responseEntityOf(headers);
     }
 
     @Data
