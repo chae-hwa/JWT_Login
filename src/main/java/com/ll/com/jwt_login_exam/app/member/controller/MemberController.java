@@ -2,6 +2,7 @@ package com.ll.com.jwt_login_exam.app.member.controller;
 
 import com.ll.com.jwt_login_exam.app.base.dto.RsData;
 import com.ll.com.jwt_login_exam.app.member.entity.Member;
+import com.ll.com.jwt_login_exam.app.member.request.dto.LoginDto;
 import com.ll.com.jwt_login_exam.app.member.service.MemberService;
 import com.ll.com.jwt_login_exam.app.security.entity.MemberContext;
 import com.ll.com.jwt_login_exam.util.Util;
@@ -27,6 +28,14 @@ public class MemberController {
     @GetMapping("/test")
     public String test(@AuthenticationPrincipal MemberContext memberContext) {
         return "안녕" + memberContext;
+    }
+
+    @GetMapping("/me")
+    public ResponseEntity<RsData> me(@AuthenticationPrincipal MemberContext memberContext) {
+        if ( memberContext == null ){ // 임시 코드, 나중에는 로그인 못하면 이곳으로 접근 못하게 설정할 예정
+            return Util.spring.responseEntityOf(RsData.failOf(null));
+        }
+        return Util.spring.responseEntityOf(RsData.successOf(memberContext));
     }
 
     @PostMapping("/login")
@@ -62,15 +71,5 @@ public class MemberController {
                 ),
                 Util.spring.httpHeadersOf("Authentication", accessToken)
         );
-    }
-
-    @Data
-    public static class LoginDto{
-        private String username;
-        private String password;
-
-        public boolean isNotValid(){
-            return username == null || password == null || username.trim().length() == 0 || password.trim().length() == 0;
-        }
     }
 }
