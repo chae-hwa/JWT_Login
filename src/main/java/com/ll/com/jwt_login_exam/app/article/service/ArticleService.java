@@ -1,5 +1,6 @@
 package com.ll.com.jwt_login_exam.app.article.service;
 
+import com.ll.com.jwt_login_exam.app.article.dto.request.ArticleModifyDto;
 import com.ll.com.jwt_login_exam.app.article.entity.Article;
 import com.ll.com.jwt_login_exam.app.article.repository.ArticleRepository;
 import com.ll.com.jwt_login_exam.app.member.entity.Member;
@@ -41,5 +42,15 @@ public class ArticleService {
 
     public void delete(Article article) {
         articleRepository.delete(article);
+    }
+
+    public boolean actorCanModify(MemberContext memberContext, Article article) {
+        return actorCanDelete(memberContext, article);
+    }
+
+    public void modify(Article article, ArticleModifyDto articleModifyDto) {
+        article.setSubject(articleModifyDto.getSubject());
+        article.setContent(articleModifyDto.getContent());
+        articleRepository.save(article);
     }
 }
