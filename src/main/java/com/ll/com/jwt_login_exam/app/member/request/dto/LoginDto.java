@@ -2,12 +2,12 @@ package com.ll.com.jwt_login_exam.app.member.request.dto;
 
 import lombok.Data;
 
-@Data
-public class LoginDto{
-    private String username;
-    private String password;
+import javax.validation.constraints.NotEmpty;
 
-    public boolean isNotValid(){
-        return username == null || password == null || username.trim().length() == 0 || password.trim().length() == 0;
-    }
+@Data
+public class LoginDto {
+    @NotEmpty(message = "username을(를) 입력해주세요.")
+    private String username;
+    @NotEmpty(message = "password을(를) 입력해주세요.")
+    private String password;
 }
